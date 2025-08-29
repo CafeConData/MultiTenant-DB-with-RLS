@@ -85,6 +85,10 @@ CREATE TABLE dbo.Orders (
 );
 GO
 
+CREATE NONCLUSTERED INDEX IX_Orders_Tenant_Customer
+ON dbo.Orders (TenantId, CustomerId);
+GO
+
 ---------------------------------------------------------
 -- OrderDetails
 ---------------------------------------------------------
@@ -101,3 +105,9 @@ CREATE TABLE dbo.OrderDetails (
         REFERENCES dbo.Products (TenantId, ProductId) 
 );
 GO
+
+CREATE NONCLUSTERED INDEX IX_OrderDetails_Tenant_Product
+ON dbo.OrderDetails (TenantId, ProductId);
+GO
+
+
