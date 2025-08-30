@@ -1,5 +1,5 @@
 ﻿---------------------------------------------------------
--- Roll-up: Total per Product
+--	Roll-up: Total per Customer
 ---------------------------------------------------------
 
 ---------------------------------------------------------
@@ -12,18 +12,17 @@ EXEC sp_set_session_context @key = N'TenantId', @value = '00000000-0000-0000-000
 DECLARE @CustomerId INT = NULL; -- set to NULL to retieve all customers
 
 SELECT 
-    p.TenantId,
-    p.ProductId,
-    p.Name AS ProductName,
-    SUM(od.Quantity) AS TotalQuantitySold,
-    SUM(od.Quantity * od.UnitPrice) AS ProductTotal
-FROM dbo.Products p
-INNER JOIN dbo.OrderDetails od
-    ON p.TenantId = od.TenantId
-   AND p.ProductId = od.ProductId
+    c.TenantId,
+    c.CustomerId,
+    c.Name AS CustomerName,
+    SUM(od.Quantity * od.UnitPrice) AS CustomerTotal
+FROM dbo.Customers c
 INNER JOIN dbo.Orders o
-    ON od.TenantId = o.TenantId
-   AND od.OrderId = o.OrderId
-WHERE (@CustomerId IS NULL OR o.CustomerId = @CustomerId)
-GROUP BY p.TenantId, p.ProductId, p.Name
-ORDER BY TotalQuantitySold DESC;
+    ON c.TenantId = o.TenantId
+   AND c.CustomerId = o.CustomerId
+INNER JOIN dbo.OrderDetails od
+    ON o.TenantId = od.TenantId
+   AND o.OrderId = od.OrderId
+WHERE (@CustomerId IS NULL OR c.CustomerId = @CustomerId)
+GROUP BY c.TenantId, c.CustomerId, c.Name
+ORDER BY CustomerTotal DESC;
