@@ -50,5 +50,11 @@ As from here you can query tables as usual in other databases. Notice all tables
 
 ⚠️ Take special care to not disable Row Level Security policies in PROD scenarios if used🔥
 
+# Scripts to Test Write Actions
+
+👉 Added "Test Write Actions with RLS.sql" to test INSERT, UPDATE and DELETE actions with RLS enabled
+
+👉 Added "Test Write Actions with RLS and Wrong Tenant.sql" to test INSERT with Tenant in Session Context different from Tenant to Insert. As expected, it fails due to BLOCK Security Policy.
+
 
 
